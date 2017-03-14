@@ -13,8 +13,6 @@ import enemies.*;
  * Dibuja en la interfaz correspondiente a la ventana de juego
  * 
  * @author Emmanuel
- * @version 1.1.0
- * @since Tron 1.1.0
  *
  */
 public class PanelJuego extends JPanel{
@@ -25,18 +23,13 @@ public class PanelJuego extends JPanel{
 	public final ImageIcon background;
 
 	/**
-	 * Crea el constructor de la clase. Se definen tamaño, y se instancian los
-	 * objetos que es utilizan en la métodos dela calse
+	 * Crea el constructor de la clase. Se definen tamaÃ±o, y se instancian los
+	 * objetos que es utilizan en la mÃ©todos dela clase
 	 */
 	public PanelJuego() {
 		background = new ImageIcon(this.getClass().getResource("/Imagenes/Desierto basilisco2.jpg"));
 	}
 
-	@Override
-	/**
-	 * Método que, dependiendo del valor de cada casilla de la matriz principal,
-	 * dibuja imágenes en pantalla
-	 */
 	public void paint(Graphics g) {
 		g.drawImage(background.getImage(), 0, 0, 800, 600, null);
 		int x1 = 100;
