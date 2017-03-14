@@ -8,12 +8,8 @@ import javax.swing.ImageIcon;
 import Logica.*;
 
 /**
- * Crea la moto, la cual ser· el medio para que el juego pueda ser jugable
- * 
- * @author Emmanuel
+ * Crea el jet, la cual ser√° el medio para que el juego pueda ser jugable
  * @author Vinicio
- * @version 1.1.0
- * @since Tron 1.1.0
  */
 public class Jet {
 
@@ -29,11 +25,10 @@ public class Jet {
 
 
 	/**
-	 * Crea el constructor de la clase. Defina donde se ubicar· la moto por
-	 * defecto
+	 * Crea el constructor de la clase. 
 	 */
 	public Jet() {
-		// Carga las im·genes.
+		// Carga la imagen.
 		img = new ImageIcon(this.getClass().getResource("/Imagenes/1444842379440.png"));
 
 	}
@@ -43,11 +38,11 @@ public class Jet {
 	}
 
 	/**
-	 * MÈtodo que modifica la posiciÛn X de la moto en la matriz
+	 * M√©todo que modifica la posici√≥n Y del Jet en la matriz
 	 * 
 	 * @param Flag
-	 *            booleano que dicta si se incrementa o decrementa la posiciÛn
-	 *            de la moto. Verdadero la incrementa, Falso la decrementa
+	 *            booleano que dicta si se incrementa o decrementa la posici√≥n
+	 *            del Jet. Verdadero la incrementa, Falso la decrementa
 	 */
 	public void cambiarPosY(boolean Flag) {
 		if (Flag == true) {
@@ -57,6 +52,14 @@ public class Jet {
 			this.posY-=3;
 		}
 	}
+	/**
+	 * M√©todo que modifica la posici√≥n X de la moto en la matriz
+	 * 
+	 * @param Flag
+	 *            booleano que dicta si se incrementa o decrementa la posici√≥n
+	 *            del Jet. Verdadero la decrementa, Falso la incrementa
+	 * 
+	 */
 	public void cambiarPosX(boolean Flag) {
 		if (Flag == true) {
 			this.posX+=4;
@@ -67,33 +70,26 @@ public class Jet {
 	}
 
 
-	/**
-	 * MÈtodo que modifica la posiciÛn Y de la moto en la matriz
-	 * 
-	 * @param Flag
-	 *            booleano que dicta si se incrementa o decrementa la posiciÛn
-	 *            de la moto. Verdadero la decrementa, Falso la incrementa
-	 * 
-	 */
+	
 
 	/**
-	 * Devuelve la posiciÛn que tiene la moto
+	 * Devuelve la posici√≥n que tiene el Jet
 	 * 
-	 * @return PosiciÛn en X de la moto
+	 * @return Posici√≥n en X del Jet
 	 */
 	public int getPosX() {
 		return posX;
 	}
 	/**
-	 * Devuelve la posiciÛn que tiene la moto
+	 * Devuelve la posici√≥n que tiene el Jet
 	 * 
-	 * @return PosiciÛn en Y de la moto
+	 * @return Posici√≥n en Y del Jet
 	 * 
 	 */
 	public int getPosY() {
 		return this.posY;
 	}
-	// depende de la direcciÛn de la moto carga su correspondiente imagen.
+	// depende de la direcci√≥n de la moto carga su correspondiente imagen.
 	public void paintImage(Graphics g, int x, int y) {
 			g.drawImage(img.getImage(), x - 8, y - 50, 32, 64, null);
 	}
