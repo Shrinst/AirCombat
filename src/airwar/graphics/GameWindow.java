@@ -10,7 +10,6 @@ import java.net.Socket;
 
 import javax.swing.JFrame;
 
-import airwar.enemies.Jet;
 import airwar.logic.Controller;
 import airwar.player.Ship;
 
@@ -34,7 +33,6 @@ public class GameWindow extends JFrame implements Runnable{
 	
 	private static Thread thread;
 	private static GamePanel gamePanel;
-	private static Jet jet;
 	private static Controller controller;
 	private static Ship ship;
 	
@@ -55,7 +53,6 @@ public class GameWindow extends JFrame implements Runnable{
 	// Setup Variables
 	private void initialize() {	
 		gamePanel = new GamePanel();
-		jet = new Jet();
 		controller = new Controller();
 		ship =  new Ship();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,8 +104,6 @@ public class GameWindow extends JFrame implements Runnable{
 				ship.changePosX(false, Math.abs(y));
 			}
 		}
-		
-		jet.move();
 		gamePanel.repaint();
 		aps++;
 	}

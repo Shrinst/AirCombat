@@ -16,7 +16,7 @@ public class NodoJet {
 		setNext(null);
 		this.posX = valueX;
 		this.posY= -256*valueY;
-		img = new ImageIcon(this.getClass().getResource("/airwar/images/1444842379440.png"));
+		img = new ImageIcon(this.getClass().getResource("/airwar/images/jet.png"));
 	}
 	public NodoJet getNext() {
 		return next;
@@ -77,7 +77,7 @@ public class NodoJet {
 	public void setPosY(int y) {
 		this.posY = y;
 	}
-	// depende de la direcciÃ³n de la moto carga su correspondiente imagen.
+	// depende de la dirección de la moto carga su correspondiente imagen.
 	public void paintImage(Graphics g) {
 		g.drawImage(img.getImage(), this.posX, this.posY , 32, 64, null);
 	}

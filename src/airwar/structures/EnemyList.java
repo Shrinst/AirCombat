@@ -4,22 +4,23 @@ import java.awt.Graphics;
 import java.util.Random;
 import airwar.enemies.*;
 
-public class EnemyQueue {
+public class EnemyList {
 
 	private NodoJet head;
 	private NodoJet last;
 	private int size;
 	public Random rnd = new Random();
-	private EnemyList list = new EnemyList();
 
-	public EnemyQueue() {
+	public EnemyList() {
 		head = last = null;
 		size = 0;
 
 	}
+
 	public boolean isEmphy() {
 		return head == null;
 	}
+
 	public void insert() {
 		int valueX = rnd.nextInt(800-32);//posiciones
 		int valueY = rnd.nextInt(30);//oleadas;
@@ -32,14 +33,30 @@ public class EnemyQueue {
 		last = newNode;
 		size++;
 	}
-	public void delete() {
-		list.insert();
-		head=head.next;
+
+	public void action(Graphics g) {
+		NodoJet temp1 = new NodoJet(0,0,0);
+		temp1 = head;
+		for (int i = 0; i < size; i++) {
+			temp1.paintImage(g);
+			temp1.move();
+			temp1 = temp1.next;
+		}
+	}
+
+	public void delete(int nodo) {
+		NodoJet temp1 = new NodoJet(0,0,0);
+		NodoJet temp2 = new NodoJet(0,0,0);
+		temp1 = head;
+		for (int i = 0; i < nodo; i++) {
+			temp1 = temp1.next;
+		}
+		temp2 = temp1;
+		temp1 = temp1.next;
+		temp2.setNext(temp1);
 		size--;
 	}
-	public void action(Graphics g) {
-		list.action(g);
-		}
+
 	public int size() {
 		return size;
 	}
