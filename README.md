@@ -1,2 +1,0 @@
-# AirCombat
-Proyecto #1
