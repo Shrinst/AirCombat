@@ -11,6 +11,8 @@ import java.net.Socket;
 import javax.swing.JFrame;
 
 import airwar.enemies.Jet;
+import airwar.logic.Controller;
+import airwar.player.Ship;
 
 public class GameWindow extends JFrame implements Runnable{
 
@@ -28,10 +30,13 @@ public class GameWindow extends JFrame implements Runnable{
 	private static int x = 0;
 	private static int y = 0;
 	private static String shooting = "";
+	private static boolean gamePad = true;
 	
 	private static Thread thread;
 	private static GamePanel gamePanel;
 	private static Jet jet;
+	private static Controller controller;
+	private static Ship ship;
 	
 	private ServerSocket serversocket;
 	private Socket socket;
@@ -51,10 +56,13 @@ public class GameWindow extends JFrame implements Runnable{
 	private void initialize() {	
 		gamePanel = new GamePanel();
 		jet = new Jet();
+		controller = new Controller();
+		ship =  new Ship();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setSize(WIDTH, HEIGHT);
 		this.setLocationRelativeTo(null);	
+		this.addKeyListener(controller);
 		this.add(gamePanel);
 	}
 	
@@ -65,6 +73,41 @@ public class GameWindow extends JFrame implements Runnable{
 	
 	// Change the variable's state
 	private void updateWindow() {
+		controller.update();
+		
+		if (gamePad) {
+			
+			if (controller.UP) {
+				ship.changePosY(false, 10);
+			} 
+			if (controller.DOWN) {
+				ship.changePosY(true, 10);
+			} 
+			if (controller.LEFT) {
+				ship.changePosX(false, 10);
+			}
+			if (controller.RIGHT) {
+				ship.changePosX(true, 10);
+			}
+			if (controller.SPACE) {
+				ship.shoot();
+			}
+			
+		} else {
+			if (x > 0) {
+				ship.changePosY(false, x);
+			}
+			if (x < 0) {
+				ship.changePosY(true, Math.abs(x));
+			} 
+			if (y > 0) {
+				ship.changePosX(true, y);
+			} 
+			if ( y < 0) {
+				ship.changePosX(false, Math.abs(y));
+			}
+		}
+		
 		jet.move();
 		gamePanel.repaint();
 		aps++;
@@ -113,7 +156,7 @@ public class GameWindow extends JFrame implements Runnable{
 							
 							reciveMessage();				
 
-							sendMessageToClient(String.valueOf(x) + ";" + String.valueOf(y) + ";" + shooting);
+							//sendMessageToClient(String.valueOf(x) + ";" + String.valueOf(y) + ";" + shooting);
 
 						}
 
@@ -177,6 +220,8 @@ public class GameWindow extends JFrame implements Runnable{
 		
 		double timeElapsed;
 		double delta = 0; // Amount of time until an update is made
+		
+		requestFocus();
 		
 		
 		while (isAlive) {

@@ -5,21 +5,23 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import airwar.enemies.Jet;
+import airwar.player.Ship;
 
-public class GamePanel extends JPanel{	
-	// atributos	
+public class GamePanel extends JPanel{		
 	
 	private static final long serialVersionUID = -561847312752914365L;
-	private static Jet jet = new Jet();		
-	private  ImageIcon background;
+	//private static Jet jet;	
+	private static Ship ship;	
+	private ImageIcon background;	
 	
-	/**
-	 * Crea el constructor de la clase. Se definen tamaño, y se instancian los
-	 * objetos que es utilizan en la métodos dela clase
-	 */
 	public GamePanel() {
+		initialize();
 		loadContent();
+	}
+	
+	private void initialize() {
+		ship = new Ship();		
+		//jet = new Jet();
 	}
 	
 	private void loadContent() {
@@ -29,9 +31,9 @@ public class GamePanel extends JPanel{
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(background.getImage(), 0, 0, 800, 600, null);
-		int x1 = 100;
-		int y1 = 100;
-		jet.paintImage(g, x1, y1);			
-
+		int x1 = Ship.getPositionX();
+		int y1 = Ship.getPositionY();
+		//jet.paintImage(g, x1, y1);	
+		ship.paintImage(g, x1, y1);
 	}
 }

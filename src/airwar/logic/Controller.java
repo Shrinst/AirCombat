@@ -5,34 +5,35 @@ import java.awt.event.KeyListener;
 
 public class Controller implements KeyListener{
 	
-	// atributos
-		private int state;	
+	private final static int numberKey = 120;
+	private final boolean[] keyWords = new boolean[numberKey];
+	
+	public boolean UP;
+	public boolean DOWN;
+	public boolean LEFT;
+	public boolean RIGHT;
+	public boolean SPACE;
+	
+	public void update() {
+		UP = keyWords[KeyEvent.VK_W];
+		DOWN = keyWords[KeyEvent.VK_S];
+		LEFT = keyWords[KeyEvent.VK_A];
+		RIGHT = keyWords[KeyEvent.VK_D];
+		SPACE = keyWords[KeyEvent.VK_SPACE];
+	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {		
+		keyWords[e.getKeyCode()] = true;
+	}
 
-		// Método que detecta cuando se presiona una tecla y ejecuta una acción
-		// determinada.
-		public int getState() {
-			return this.state;
-		}
+	@Override
+	public void keyReleased(KeyEvent e) {		
+		keyWords[e.getKeyCode()] = false;
+	}
 
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			int codigo = e.getKeyCode();			
-		}
-
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			
-			
-		}
-
-
-		@Override
-		public void keyTyped(KeyEvent e) {
+	@Override
+	public void keyTyped(KeyEvent e) {		
 		
-			
-		}
-		
+	}	
 }

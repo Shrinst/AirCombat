@@ -5,11 +5,7 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-import airwar.logic.Controller;
-
 public class Jet {
-
-	private static Controller mando = new Controller();
 
 	private static int posX;
 	private static int posY;
@@ -45,19 +41,19 @@ public class Jet {
 
 	public void cambiarPosY(boolean Flag) {
 		if (Flag == true) {
-			this.posY++;
+			Jet.posY++;
 
 		} else {
-			this.posY--;
+			Jet.posY--;
 		}
 	}
 
 	public void cambiarPosX(boolean Flag) {
 		if (Flag == true) {
-			this.posX++;
+			Jet.posX++;
 
 		} else {
-			this.posX--;
+			Jet.posX--;
 		}
 	}
 
@@ -66,15 +62,15 @@ public class Jet {
 	}
 
 	public int getPosY() {
-		return this.posY;
+		return Jet.posY;
 	}
 
 	public void setPosX(int x) {
-		this.posX = x;
+		Jet.posX = x;
 	}
 
 	public void setPosY(int y) {
-		this.posY = y;
+		Jet.posY = y;
 	}
 
 	// depende de la dirección de la moto carga su correspondiente imagen.
