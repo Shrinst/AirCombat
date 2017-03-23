@@ -32,9 +32,9 @@ public class GameWindow extends JFrame implements Runnable{
 	private static boolean gamePad = true;
 	
 	private static Thread thread;
-	private static GamePanel gamePanel;
+	private static GamePanel gamePanel;	
 	private static Controller controller;
-	private static Ship ship;
+	private static Ship ship;	
 	
 	private ServerSocket serversocket;
 	private Socket socket;
@@ -52,9 +52,9 @@ public class GameWindow extends JFrame implements Runnable{
 		
 	// Setup Variables
 	private void initialize() {	
-		gamePanel = new GamePanel();
+		gamePanel = new GamePanel();		
 		controller = new Controller();
-		ship =  new Ship();
+		ship =  new Ship();		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setSize(WIDTH, HEIGHT);
@@ -87,7 +87,7 @@ public class GameWindow extends JFrame implements Runnable{
 				ship.changePosX(true, 10);
 			}
 			if (controller.SPACE) {
-				ship.shoot();
+				GamePanel.shoot = true;					
 			}
 			
 		} else {
@@ -103,13 +103,17 @@ public class GameWindow extends JFrame implements Runnable{
 			if ( y < 0) {
 				ship.changePosX(false, Math.abs(y));
 			}
-		}
+			if (shooting.equals("shooting")) {
+				GamePanel.shoot = true;				
+			}
+		}	
+		
 		gamePanel.repaint();
 		aps++;
 	}
 	
 	// Show the Graphics
-	private void drawWindow() {
+	private void drawWindow() {		
 		gamePanel.validate();
 		gamePanel.repaint();
 		fps++;
@@ -151,7 +155,7 @@ public class GameWindow extends JFrame implements Runnable{
 							
 							reciveMessage();				
 
-							//sendMessageToClient(String.valueOf(x) + ";" + String.valueOf(y) + ";" + shooting);
+							sendMessageToClient(String.valueOf(x) + ";" + String.valueOf(y) + ";" + shooting);
 
 						}
 
@@ -193,7 +197,7 @@ public class GameWindow extends JFrame implements Runnable{
 				x = Integer.valueOf(split[0]);
 				y = Integer.valueOf(split[1]);
 				shooting = split[2];
-				System.out.println(x + ":" + y + ":" + shooting);
+				//System.out.println(x + ":" + y + ":" + shooting);
 				//System.out.println("Message from the Client: " + data);							
 			}			
 

@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+
 public class Ship {
 
 	private static int posX;
@@ -12,19 +13,14 @@ public class Ship {
 	private static final int HEIGHT = 600;
 	private static final int WIDTH = 800;
 
-	private Image imagen;
-	private ImageIcon bulletImage;
-	private static PlayerBullet bullet;
-	boolean shoot = true;
+	private Image imagen;	
+	boolean shoot = true;	
 
 	public Ship() {
 		posX = 400;
-		posY = 300;
+		posY = 300;		
 		ImageIcon img = new ImageIcon(this.getClass().getResource("/airwar/images/1444842379440.png"));
-		imagen = img.getImage();
-		bulletImage = new ImageIcon(this.getClass().getResource("/airwar/images/PlayerBullet.png"));
-		bullet = new PlayerBullet(100, 10);	
-		bullet.setImage(bulletImage);
+		imagen = img.getImage();		
 	}
 
 	public void changePosX(boolean Flag, int amount) {
@@ -57,19 +53,9 @@ public class Ship {
 
 	public static int getPositionY() {
 		return Ship.posY;
-	}
-	
-	public void  shoot() {
-		System.out.println("HOla");
-		System.out.println(bullet == null);
-		while (shoot) {
-			bullet.move();
-		}
-		//bullet = null;
-	}
+	}	
 
-	public void paintImage(Graphics g, int x, int y) {		
-		g.drawImage(bullet.getImage(), x, y, 15, 15, null);
-		g.drawImage(imagen, x - 25, y - 30, 64, 128, null);
+	public void paintImage(Graphics g, int x, int y) {
+		g.drawImage(imagen, x, y, 64, 128, null);		
 	}
 }

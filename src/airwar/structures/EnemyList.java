@@ -2,10 +2,11 @@ package airwar.structures;
 
 import java.awt.Graphics;
 import java.util.Random;
-import airwar.enemies.*;
+
+import airwar.enemies.NodoJet;
 
 public class EnemyList {
-
+	
 	private NodoJet head;
 	private NodoJet last;
 	private int size;
@@ -60,4 +61,5 @@ public class EnemyList {
 	public int size() {
 		return size;
 	}
+
 }

@@ -2,7 +2,8 @@ package airwar.structures;
 
 import java.awt.Graphics;
 import java.util.Random;
-import airwar.enemies.*;
+
+import airwar.enemies.NodoJet;
 
 public class EnemyQueue {
 
@@ -17,13 +18,15 @@ public class EnemyQueue {
 		size = 0;
 
 	}
+
 	public boolean isEmphy() {
 		return head == null;
 	}
+
 	public void insert() {
-		int valueX = rnd.nextInt(800-32);//posiciones
-		int valueY = rnd.nextInt(30);//oleadas;
-		NodoJet newNode = new NodoJet(valueX, valueY,0);
+		int valueX = rnd.nextInt(800 - 32);// posiciones
+		int valueY = rnd.nextInt(30);// oleadas;
+		NodoJet newNode = new NodoJet(valueX, valueY, 0);
 		if (isEmphy()) {
 			head = newNode;
 		} else {
@@ -32,15 +35,19 @@ public class EnemyQueue {
 		last = newNode;
 		size++;
 	}
+
 	public void delete() {
 		list.insert();
-		head=head.next;
+		head = head.next;
 		size--;
 	}
+
 	public void action(Graphics g) {
 		list.action(g);
-		}
+	}
+	
 	public int size() {
 		return size;
 	}
+
 }
