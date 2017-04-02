@@ -27,8 +27,8 @@ public class EnemyList {
 
 	public void insert() {
 		int valueX = rnd.nextInt(800 - 32);// posiciones
-		int valueY = rnd.nextInt(30);// oleadas;
-		NodeJet newNode = new NodeJet(valueX, valueY, 0, game);
+		int valueY = rnd.nextInt(20);
+		NodeJet newNode = new NodeJet(valueX, 0, valueY, game);
 		if (isEmpty()) {
 			head = newNode;
 		} else {
