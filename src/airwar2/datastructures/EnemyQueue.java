@@ -46,12 +46,16 @@ public class EnemyQueue {
 		size--;
 	}
 
-	public void action(Graphics g) {
-		list.action(g);
+	public void action(Graphics g, int targetX, int targetY) {
+		list.action(g, targetX, targetY);
 	}
 	
 	public int getSize() {
 		return size;
+	}
+	
+	public EnemyList getEnemyList() {
+		return this.list;
 	}
 
 }

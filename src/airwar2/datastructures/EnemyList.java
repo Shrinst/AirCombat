@@ -38,30 +38,47 @@ public class EnemyList {
 		size++;
 	}
 
-	public void action(Graphics g) {
+	public void action(Graphics g, int targetX, int targetY) {
 		NodeJet temp1 = new NodeJet(0, 0, 0, game);
 		temp1 = head;
 		for (int i = 0; i < size; i++) {
 			temp1.render(g);
-			temp1.tick();
+			temp1.tick(targetX, targetY);
+			temp1.shoot();
 			temp1 = temp1.getNext();
 		}
 	}
 
 	public void delete(int nodo) {
-		NodeJet temp1 = new NodeJet(0, 0, 0, game);
-		NodeJet temp2 = new NodeJet(0, 0, 0, game);
-		temp1 = head;
-		for (int i = 0; i < nodo; i++) {
-			temp1 = temp1.getNext();
+		if (this.size > 0) {
+			if (head == last && nodo == head.getPosY()) {
+				head = last = null;
+			} else if (nodo == head.getPosY()) {
+				head = head.getNext();
+			} else {
+				NodeJet anterior, temporal;
+				anterior=head;
+				temporal=head.getNext();
+				while(temporal!=null && temporal.getPosY()!=nodo){
+					anterior=anterior.getNext();
+					temporal=temporal.getNext();
+				}
+				if(temporal!=null){
+					anterior.setNext(temporal.getNext());
+					if(temporal==last){
+						last=anterior;
+					}
+				}
+			}
 		}
-		temp2 = temp1;
-		temp1 = temp1.getNext();
-		temp2.setNext(temp1);
-		size--;
+		this.size--;
 	}
 
 	public int getSize() {
 		return size;
+	}
+
+	public NodeJet getHead() {
+		return this.head;
 	}
 }
