@@ -1,6 +1,7 @@
 package airwar2.graphics;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -20,11 +21,14 @@ import javax.swing.JFrame;
 import airwar2.datastructures.EnemyBullets;
 import airwar2.datastructures.EnemyQueue;
 import airwar2.datastructures.PlayerBullets;
+import airwar2.datastructures.PowerUpsList;
+import airwar2.datastructures.Stack;
 import airwar2.multithreading.ThreadPool;
 import airwar2.player.KeyInput;
 import airwar2.player.Player;
 import airwar2.playmusic.MusicPlayer;
 import airwar2.playmusic.SoundEffectPlayer;
+import airwar2.powerups.PowerUps;
 import airwar2.player.Bullet;
 import airwar2.spritesheet.BufferedImageLoader;
 import airwar2.spritesheet.SpriteSheet;
@@ -42,10 +46,13 @@ public class Game extends Canvas implements Runnable {
 	private static int x = 0;
 	private static int y = 0;
 	private int shipNum = 50;
+	private int score = 0;
 	private static String shooting = "";
 	private static boolean gamePad = true; // Android false; PC true
 	private volatile boolean isAlive = false; // volatile is needed to make multi-threading works
 	private boolean is_shooting = false;
+	private boolean is_powerUp = false;
+	private int typeBullet = 0;
 
 	private Thread thread;
 	private JFrame jframe;
@@ -54,6 +61,9 @@ public class Game extends Canvas implements Runnable {
 	private EnemyBullets enemyBullets;
 	private EnemyQueue enemyQueue;
 	private MusicPlayer musicPlayer;
+	private LevelHandler levelHandler;
+	private PowerUpsList powerUpsList;
+	private Stack stack;
 	
 	private BufferedImage backgroundImage = null;
 	private BufferedImage iconImage = null;
@@ -109,9 +119,12 @@ public class Game extends Canvas implements Runnable {
 		
 		bullets = new PlayerBullets();
 		enemyBullets = new EnemyBullets();
-		enemyQueue = new EnemyQueue(this);	
+		enemyQueue = new EnemyQueue(this);		
+		musicPlayer = new MusicPlayer("Dr.Willy", "Wizard&Warriors", "ForestOfFellatio");	
+		levelHandler = new LevelHandler(this);
+		powerUpsList = new PowerUpsList(this);
+		stack = new Stack();
 		player = new Player(200, 200, this);
-		musicPlayer = new MusicPlayer("Wizard&Warriors", "ForestOfFellatio", "Dr.Willy");		
 
 		for (int i = 0; i < shipNum; i++) {
 			enemyQueue.insert();
@@ -161,13 +174,15 @@ public class Game extends Canvas implements Runnable {
 				player.setVelY(-Math.abs(x));
 			}
 			if (shooting.equals("shooting")) {
-				bullets.addBullet(new Bullet(player.getX(), player.getY(), this));
+				//bullets.addBullet(new Bullet(player.getX(), player.getY(), this));
 				new SoundEffectPlayer("Laser_Shoot11").play(-25);
 			}
 		}
+		//levelHandler.tick();
 		player.tick();
 		bullets.tick();	
-		enemyBullets.tick();		
+		enemyBullets.tick();	
+		powerUpsList.tick();
 		aps++;
 	}
 
@@ -184,15 +199,20 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bufferStrategy.getDrawGraphics();
 
 		// g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-		g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+		//g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+		levelHandler.render(g);
 		player.render(g);
 		bullets.render(g);
 		enemyBullets.render(g);
+		powerUpsList.render(g);
 
 		if (enemyQueue.getSize() > 0 && value == 6) {
 			enemyQueue.delete();
 		}
 		enemyQueue.action(g, (int) player.getX(), (int) player.getY());
+		
+		g.setColor(Color.CYAN);		
+		g.drawString(String.valueOf(score), 600, 50);
 
 		g.dispose();
 		bufferStrategy.show();
@@ -211,9 +231,14 @@ public class Game extends Canvas implements Runnable {
 				player.setVelY(-5);
 			} else if (key == KeyEvent.VK_S) {
 				player.setVelY(5);
+			} else if (key == KeyEvent.VK_Q && !is_powerUp) {
+				is_powerUp = true;		
+				if (!stack.is_empty()) {
+					typeBullet = stack.pop().getType();			
+				}				
 			} else if (key == KeyEvent.VK_SPACE && !is_shooting) {
 				is_shooting = true;
-				bullets.addBullet(new Bullet(player.getX(), player.getY(), this));				
+				bullets.addBullet(new Bullet(player.getX(), player.getY(), typeBullet, this));				
 				new SoundEffectPlayer("Laser_Shoot11").play(-10);				
 			}
 		}
@@ -230,6 +255,8 @@ public class Game extends Canvas implements Runnable {
 				player.setVelY(0);
 			} else if (key == KeyEvent.VK_S) {
 				player.setVelY(0);
+			} else if (key == KeyEvent.VK_Q) {
+				is_powerUp = false;
 			} else if (key == KeyEvent.VK_SPACE) {
 				is_shooting = false;
 			}
@@ -251,16 +278,35 @@ public class Game extends Canvas implements Runnable {
 	public Player getPlayer() {
 		return this.player;
 	}
+	
 	public PlayerBullets getPlayerBullets() {
 		return this.bullets;
+	}
+	
+	public PowerUpsList getPowerUpsList() {
+		return this.powerUpsList;
+	}
+	
+	public int getScore() {
+		return this.score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	public Stack getStack() {
+		return this.stack;
+	}
+	
+	public void pushStack(PowerUps powerup, int type) {
+		this.stack.push(powerup, type);
 	}
 
 	private void runServer() {
 		new Thread(new Runnable() {
 			public void run() {
-
 				while (isAlive) {
-
 					try {
 						System.out.println("Server Starting at Port Number: " + PORT);
 						serversocket = new ServerSocket(PORT);
