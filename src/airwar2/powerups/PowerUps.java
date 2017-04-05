@@ -1,27 +1,70 @@
 package airwar2.powerups;
 
-public class PowerUps {
-	
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
-	private int data;
+import airwar2.graphics.Game;
+import airwar2.spritesheet.SpriteSheet;
+
+public class PowerUps {
+
 	private PowerUps next;
+	private int posValueX;
+	private int posValueY;
+	private int type;
 	
-	public PowerUps(int d){
+	private Game game;
+	private BufferedImage image;
+	
+	public PowerUps(int type) {
+		this.type = type;
+	}
+
+	public PowerUps(int valueX, int valueY, int type, Game game) {
+		next = null;
+		this.posValueX = valueX;
+		this.posValueY = valueY;
+		this.type = type;
+		this.game = game;
 		
-		data=d;
-		next=null;
+		SpriteSheet spriteSheet = new SpriteSheet(game.getSpriteSheet());
+		this.image = spriteSheet.grabImage(1, 1, 32, 32);
 	}
 	
-	public int getData() {
-		return this.data;
+	public void tick() {
+		posValueY++;
 	}
 	
+	public void render(Graphics g) {
+		g.drawImage(image, this.posValueX, this.posValueY, null);
+	}
+
 	public PowerUps getNext() {
 		return next;
 	}
-	
+
 	public void setNext(PowerUps next) {
 		this.next = next;
 	}
-
+	
+	public int getType() {
+		return this.type;
+	} 
+	
+	public void setType(int type) {
+		this.type = type;
+	}
+	
+	public int getPosX() {
+		return this.posValueX;
+	}
+	
+	public int getPosY() {
+		return this.posValueY;
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle(this.posValueX, this.posValueY, image.getWidth(null), image.getHeight(null));
+	}
 }
