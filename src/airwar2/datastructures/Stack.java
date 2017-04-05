@@ -1,51 +1,47 @@
-package Data_Structures;
+package airwar2.datastructures;
+
+import airwar2.powerups.PowerUps;
 
 public class Stack {
 
-	private StackNode first;
-	int size;
-	
-	public Stack(){
-		
-		first=null;
-		size=0;
+	private PowerUps first;
+	private int size;
+
+	public Stack() {
+
+		first = null;
+		size = 0;
 	}
-	
-	public boolean is_empty(){
-		return first==null;
+
+	public boolean is_empty() {
+		return first == null;
 	}
-	
-	public void push(int element){
-	
-		StackNode node= new StackNode(element); 
-		node.next=first;
-		first=node;
-		size ++;
+
+	public void push(PowerUps powerUp, int type) {
+		PowerUps node = new PowerUps(type);
+		node.setNext(first);
+		first = node;
+		size++;
 	}
-	public int pop(){
-		
-		int aux=first.data;
-		first=first.next;
-		size --;
+
+	public PowerUps pop() {
+		PowerUps aux = first;
+		first = first.getNext();
+		size--;
 		return aux;
 	}
-	
-	public int first(){
-		
-		return first.data;
+
+	public PowerUps getFirst() {
+		return first;
 	}
-	
-	public int size(){
-		
+
+	public int getSize() {
 		return size;
 	}
-	
-	public void clean(){
-		while(!is_empty()){
+
+	public void clean() {
+		while (!is_empty()) {
 			pop();
 		}
 	}
-	
-	
-	
 }

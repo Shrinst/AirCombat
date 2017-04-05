@@ -12,7 +12,7 @@ public class EnemyList {
 	private NodeJet last;
 	private int size;
 	private Random rnd = new Random();
-	private Game game;
+	private Game game;	
 
 	public EnemyList(Game game) {
 		this.game = game;
@@ -44,8 +44,11 @@ public class EnemyList {
 		for (int i = 0; i < size; i++) {
 			temp1.render(g);
 			temp1.tick(targetX, targetY);
-			temp1.shoot();
-			temp1 = temp1.getNext();
+			if (temp1.getPosY() > 600) {
+				this.delete(temp1.getPosY());				
+			}
+			temp1.shoot();		
+			temp1 = temp1.getNext();			
 		}
 	}
 
@@ -74,10 +77,11 @@ public class EnemyList {
 		this.size--;
 	}
 
+
 	public int getSize() {
 		return size;
 	}
-
+	
 	public NodeJet getHead() {
 		return this.head;
 	}

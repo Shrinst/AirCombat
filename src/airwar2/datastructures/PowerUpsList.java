@@ -1,19 +1,24 @@
 package airwar2.datastructures;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
-import airwar2.player.Bullet;
+import airwar2.graphics.Game;
+import airwar2.powerups.PowerUps;
 
-public class PlayerBullets {
+public class PowerUpsList {
 
-	private Bullet head;
-	private Bullet last;
+	private PowerUps head;
+	private PowerUps last;
 	private int size;
-	public Bullet tempBullet;
+	public PowerUps tempBullet;
+	private Game game;
 
-	public PlayerBullets() {
+	public PowerUpsList(Game game) {
 		head = last = null;
 		size = 0;
+		this.game = game;
+		//this.addPowerUp(new PowerUps(100, 100, 1, this.game));
 	}
 
 	public boolean isEmpty() {
@@ -21,34 +26,22 @@ public class PlayerBullets {
 	}
 
 	public void tick() {
-		for (Bullet aux = this.head; aux != null; aux = aux.getNext()) {
+		for (PowerUps aux = this.head; aux != null; aux = aux.getNext()) {
 			tempBullet = aux;
-			tempBullet.tick();
-			if (tempBullet.getY() < 0) {
-				this.removeBullet(tempBullet);
-			}
 
+			tempBullet.tick();
 		}
 	}
 
 	public void render(Graphics g) {
-		for (Bullet aux = this.head; aux != null; aux = aux.getNext()) {
+		for (PowerUps aux = this.head; aux != null; aux = aux.getNext()) {
 			tempBullet = aux;
-
 			tempBullet.render(g);
 		}
 	}
-	
-	public void setType(int type) {
-		for (Bullet aux = this.head; aux != null; aux = aux.getNext()) {
-			tempBullet = aux;
 
-			tempBullet.setType(type);
-		}
-	}
-	
-	public void addBullet(Bullet node) {
-		Bullet newNode = node;
+	public void addPowerUp(PowerUps node) {
+		PowerUps newNode = node;
 		if (isEmpty()) {
 			head = newNode;
 		} else {
@@ -58,17 +51,17 @@ public class PlayerBullets {
 		size++;
 	}
 
-	public void removeBullet(Bullet deleteNode) {
+	public void removePowerUp(int deleteNode) {
 		if (this.size > 0) {
-			if (head == last && deleteNode.getY() == head.getY()) {
+			if (head == last && deleteNode == head.getPosY()) {
 				head = last = null;
-			} else if (deleteNode.getY() == head.getY()) {
+			} else if (deleteNode == head.getPosY()) {
 				head = head.getNext();
 			} else {
-				Bullet anterior, temporal;
+				PowerUps anterior, temporal;
 				anterior = head;
 				temporal = head.getNext();
-				while (temporal != null && temporal.getY() != deleteNode.getY()) {
+				while (temporal != null && temporal.getPosY() != deleteNode) {
 					anterior = anterior.getNext();
 					temporal = temporal.getNext();
 				}
@@ -87,7 +80,7 @@ public class PlayerBullets {
 		return size;
 	}
 	
-	public Bullet getHead() {
+	public PowerUps getHead() {
 		return this.head;
 	}
 }

@@ -27,6 +27,10 @@ public class EnemyQueue {
 		return head == null;
 	}
 	
+	public boolean enemyListIsEmpty() {
+		return list.isEmpty();
+	}
+	
 	public void insert() {
 		int valueX = rnd.nextInt(800 - 32);// posiciones
 		int valueY = rnd.nextInt(30);// oleadas;
