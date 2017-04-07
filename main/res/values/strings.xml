@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AirWarController2.0</string>
+    <string name="startgame">Inicio Juego</string>
+    <string name="help">Ayuda</string>
+</resources>
